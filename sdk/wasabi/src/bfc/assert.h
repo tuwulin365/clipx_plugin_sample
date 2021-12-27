@@ -16,7 +16,9 @@ void _assert_handler_str(const char *string, const char *reason, const char *fil
 #undef ASSERT
 #endif
 
+#ifdef _DEBUG
 #define ASSERTS_ENABLED
+#endif
 
 #ifdef ASSERTS_ENABLED
 

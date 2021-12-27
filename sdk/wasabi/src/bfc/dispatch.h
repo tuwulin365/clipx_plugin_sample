@@ -511,4 +511,6 @@ protected:
     return 1; \
   }
 
+#define SVCTGUID_MK4CC(a,b,c,d)	{0x11223344,0x5566,0x7788,{0xaa,0xbb,0xcc,0xdd,a,b,c,d}}
+
 #endif

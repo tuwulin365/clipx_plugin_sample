@@ -60,7 +60,7 @@ int ISALPHA(int c) {
 
 int STRLEN(const char *str) {
   ASSERT(str != NULL);
-  return strlen(str);
+  return (int)strlen(str);
 }
 
 int STRCMP(const char *str1, const char *str2) {
@@ -192,7 +192,7 @@ char *STRSTR(const char *str1, const char *str2) {
   ASSERT(str1!=NULL);
   ASSERT(str2!=NULL);
   ASSERT(str1 != str2);
-  return strstr(str1, str2);
+  return (char*)strstr(str1, str2);
 }
 
 char *STRCASESTR(const char *str1, const char *str2) {
@@ -223,7 +223,7 @@ int STRCASERPL(char *s, const char *w, const char *r, int maxsize) {
   while (1) {
     char *f = STRCASESTR(o, w);
     if (!f) break;
-    int pos = s - f;
+    int pos = (int)(s - f);
     if (pos + wl + gain >= maxsize) break;
     if (gain < 0) {
       MEMCPY(f+wl+gain, f+wl, maxsize - pos - wl);
@@ -257,7 +257,7 @@ void STRNCPY(char *dest, const char *src, int maxchar) {
 
 char *STRCHR(const char *str, int c) {
   ASSERT(str != NULL);
-  return strchr(str, c);
+  return (char*)strchr(str, c);
 //INLINE
 }
 

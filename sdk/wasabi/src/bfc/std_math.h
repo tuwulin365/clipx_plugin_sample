@@ -11,7 +11,7 @@ static inline double COS(double a) { return ::cos(a); }
 static inline double SQRT(double a) { return ::sqrt(a); }
 
 static inline unsigned long BSWAP(unsigned long input) {
-#ifdef _MSC_VER
+#if defined(_MSC_VER) && !defined(_WIN64) 
   _asm {
     mov eax, input
     bswap eax

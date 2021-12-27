@@ -283,7 +283,7 @@ String String::lSplit(int idxval) {
       testscope.ncpy(val,idxval+1);
     }
 #if USE == FAST_METHODS
-    int len = strlen(val+idxval+1);
+    int len = (int)strlen(val+idxval+1);
     MEMCPY(val,val+idxval+1,len+1);
 #elif USE == SAFE_METHODS
     // Copy from the found index downwards to save for this object
@@ -395,7 +395,7 @@ String String::rSpliceChar(char findval) {
   if (end) {
     if (retval.val[0] == findval) {
 #if USE == FAST_METHODS
-      int len = strlen(retval.val+1);
+      int len = (int)strlen(retval.val+1);
       MEMCPY(retval.val,retval.val+1,len+1);
 #elif USE == SAFE_METHODS
       String temp(retval.val + 1);
@@ -421,7 +421,7 @@ String String::rSpliceChar(const char *findval) {
     for (int i = 0; i < num; i++) {
       if (retval.val[0] == findval[i]) {
 #if USE == FAST_METHODS
-      int len = strlen(retval.val+1);
+      int len = (int)strlen(retval.val+1);
       MEMCPY(retval.val,retval.val+1,len+1);
 #elif USE == SAFE_METHODS
         String temp(retval.val + 1);
@@ -466,7 +466,7 @@ int String::replace(const char *find, const char *replace) {
     p = val;
     in = new_buf;
     while( p2 = STRSTR( p, find ) ) {
-      STRNCPY( in, p, p2 - p );
+      STRNCPY( in, p, (int)(p2 - p) );
       in += p2 - p;
       STRNCPY( in, replace, rep_len ); 
       in += rep_len;

@@ -36,13 +36,21 @@ void _assert_handler(const char *reason, const char *file, int line) {
   ASSERT_SPRINTF(msg, "Expression: %s\nFile: %s\nLine: %d\n", reason, file, line);
   OutputDebugString(msg);
 #ifdef WIN32
+#ifdef _WIN64
+  if (in_assert) __debugbreak();
+#else
   if (in_assert) __asm { int 3 };
+#endif
   in_assert = 1;
 
   ATOM a = AddAtom("BYPASS_DEACTIVATE_MGR"); // so we don't need to call api->appdeactivation_setbypass
 
   if (isDebuggerPresent() || MessageBox(NULL, msg, "Assertion failed", MB_OKCANCEL|MB_TASKMODAL) == IDCANCEL) {
-    __asm { int 0x3 };
+#ifdef _WIN64
+	__debugbreak();
+#else
+	__asm { int 0x3 };
+#endif
   } else
     ExitProcess(0);
   DeleteAtom(a);
@@ -60,12 +68,20 @@ void _assert_handler_str(const char *string, const char *reason, const char *fil
   OutputDebugString(msg);
 
 #ifdef WIN32
+#ifdef _WIN64
+  if (in_assert) __debugbreak();
+#else
   if (in_assert) __asm { int 3 };
+#endif
   in_assert = 1;
 
   ATOM a = AddAtom("BYPASS_DEACTIVATE_MGR");
   if (isDebuggerPresent() || MessageBox(NULL, msg, "Assertion failed", MB_OKCANCEL|MB_TASKMODAL) == IDCANCEL) {
-    __asm { int 0x3 };
+#ifdef _WIN64
+	__debugbreak();
+#else
+	__asm { int 0x3 };
+#endif
   } else
     ExitProcess(0);
   DeleteAtom(a);

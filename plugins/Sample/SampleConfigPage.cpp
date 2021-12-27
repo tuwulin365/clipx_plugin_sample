@@ -104,7 +104,7 @@ HWND g_last_dlg = NULL;
 
 // dialog operates only on temp values, the values are copied from the actual settings prior to running the dialog,
 // and copied back to the actual settings when teh user clicks ok or apply
-BOOL CALLBACK dlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+INT_PTR CALLBACK dlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam) {
   switch (uMsg) {
     case WM_INITDIALOG:
       g_last_dlg = hwndDlg;

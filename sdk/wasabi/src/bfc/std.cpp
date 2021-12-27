@@ -211,7 +211,7 @@ void Std::usleep(int ms) { // ... yah, Std::usleep() is a misnomer.
 }
 
 stdtimeval Std::getTimeStamp() {
-  return time(NULL);
+  return (stdtimeval)time(NULL);
 }
 
 stdtimevalms Std::getTimeStampMS() {
@@ -992,7 +992,7 @@ int Std::getFileInfos(const char *filename, fileInfoStruct *infos) {
   infos->fileSizeLow=fd.nFileSizeLow;
   struct _stati64 statbuf;
   if (_stati64(filename, &statbuf) == -1) return 0;
-  infos->lastWriteTime = statbuf.st_mtime;
+  infos->lastWriteTime = (stdtimeval)statbuf.st_mtime;
   infos->readonly = fd.dwFileAttributes & FILE_ATTRIBUTE_READONLY;
   FindClose(h);
 #endif // UTF8
@@ -1257,12 +1257,19 @@ int Std::encodingSupportedByOS(const FOURCC enc) {
 void MEMFILL32(void *lptr, unsigned long val, unsigned int n) {
   if (n == 0) return;
 #ifdef WIN32
+#ifdef _WIN64
+    for (int i = 0; i < n; i++)
+    {
+        ((unsigned long*)lptr)[i] = val;
+    }
+#else
 __asm {
   mov eax, val
   mov edi, lptr
   mov ecx, n
   rep stosd
 };
+#endif
 #elif defined(GCC)
 //http://www.delorie.com/djgpp/doc/brennan/brennan_att_inline_djgpp.html ;)
 asm ("cld\n\t"

@@ -37,7 +37,7 @@ template <class SERVICETYPE, class SERVICE>
 class NOVTABLE waServiceFactoryBase : public waServiceFactoryBaseX<SERVICETYPE, SERVICE> {
 public:
   waServiceFactoryBase(GUID myGuid = INVALID_GUID) : waServiceFactoryBaseX<SERVICETYPE, SERVICE>(myGuid) {}
-  virtual FOURCC svc_serviceType() { return SERVICETYPE::getServiceType(); }
+  virtual FOURCC svc_serviceType() { GUID g = SERVICETYPE::getServiceType(); return MK4CC(g.Data4[4],g.Data4[5],g.Data4[6],g.Data4[7]);}
   virtual void *svc_getInterface(int global_lock) { // new style, client optionally does the locking
     SERVICETYPE *ret = newService();
     if (global_lock) WASABI_API_SVC->service_lock(this, ret);
